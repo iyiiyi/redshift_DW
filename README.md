@@ -170,6 +170,7 @@ python etl.py
 select * from public."songs" 
 limit 10;
 ```
+![songs data validation!](./images/songs.png "songs.png")
 
 #### 2. Check `songplays` data in songplay_id ascending order
 ```
@@ -177,6 +178,7 @@ select * from public."songplays"
 order by songplay_id
 limit 10;
 ```
+![songplays data validation_1!](./images/songplays1.png "songplays1.png")
 
 #### 3. Check `songplays` data in songplay_id descending order
 ```
@@ -184,3 +186,4 @@ select * from public."songplays"
 order by songplay_id desc
 limit 10;
 ```
+![songplays data validation_2!](./images/songplays2.png "songplays2.png")
