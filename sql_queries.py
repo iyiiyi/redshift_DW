@@ -152,12 +152,18 @@ songplay_table_insert = ("""
 """)
 
 ## users table must have unique user_id values which would be primary key
+## Here, an inner join is used to make sure last level value is saved into users table just in case a user's level changes in the events
 user_table_insert = ("""
   INSERT INTO users (user_id, first_name, last_name, gender, level)
-  SELECT userId, max(firstName), max(lastName), max(gender), max(level)
-  FROM staging_events
-  WHERE userId IS NOT NULL
-  GROUP BY userId;
+  SELECT tt.userId, max(tt.firstName), max(tt.lastName), max(tt.gender), max(tt.level)
+  FROM staging_events tt
+  INNER JOIN ( 
+    SELECT userId, max(ts) as maxTs FROM staging_events group by userId
+  ) grouped
+  ON tt.userId = grouped.userId
+  AND tt.ts = grouped.maxTs
+  WHERE tt.userId IS NOT NULL
+  GROUP BY tt.userId;
 """)
 
 ## songs table must have unique song_id values which would be primary key
